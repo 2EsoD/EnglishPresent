@@ -1,0 +1,548 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Grammar Practice</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    color: #111;
+}
+
+header {
+    background: #111;
+    color: white;
+    padding: 35px 8%;
+}
+
+header h1 {
+    font-size: 28px;
+    letter-spacing: 1px;
+}
+
+header p {
+    color: #aaa;
+    margin-top: 8px;
+}
+
+.container {
+    max-width: 850px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.intro {
+    margin-bottom: 30px;
+}
+
+.intro h2 {
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.intro p {
+    color: #666;
+    line-height: 1.6;
+}
+
+.progress-container {
+    background: #ddd;
+    height: 6px;
+    margin: 25px 0;
+    border-radius: 10px;
+}
+
+.progress {
+    background: #111;
+    height: 6px;
+    width: 0%;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.question {
+    background: white;
+    padding: 25px;
+    margin-bottom: 18px;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+}
+
+.question h3 {
+    font-size: 16px;
+    margin-bottom: 18px;
+}
+
+.number {
+    color: #888;
+    font-size: 12px;
+    margin-bottom: 12px;
+}
+
+.options {
+    display: grid;
+    gap: 10px;
+}
+
+.option {
+    padding: 13px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.option:hover {
+    border-color: #111;
+    background: #f5f5f5;
+}
+
+.option.selected {
+    background: #111;
+    color: white;
+    border-color: #111;
+}
+
+.option.correct {
+    background: #e2f2e5;
+    color: #17632b;
+    border-color: #17632b;
+}
+
+.option.wrong {
+    background: #f9e5e5;
+    color: #a32020;
+    border-color: #a32020;
+}
+
+button {
+    background: #111;
+    color: white;
+    border: none;
+    padding: 15px 28px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #444;
+}
+
+.actions {
+    text-align: center;
+    margin: 35px 0;
+}
+
+#result {
+    display: none;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    margin-top: 25px;
+}
+
+#result h2 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #888;
+    font-size: 12px;
+}
+
+.explanation {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #555;
+}
+
+@media(max-width: 600px) {
+    header {
+        padding: 25px 20px;
+    }
+
+    .question {
+        padding: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>ENGLISH PRACTICE</h1>
+    <p>Present Simple & Present Continuous</p>
+</header>
+
+<div class="container">
+
+    <section class="intro">
+        <h2>Grammar Test</h2>
+        <p>
+            Test your English grammar knowledge!
+            Complete these 25 questions about Present Simple
+            and Present Continuous. Choose the correct answer
+            for each sentence.
+        </p>
+        <p><strong>25 Questions · Multiple Choice</strong></p>
+    </section>
+
+    <div class="progress-container">
+        <div class="progress" id="progress"></div>
+    </div>
+
+    <div id="quiz"></div>
+
+    <div class="actions">
+        <button onclick="checkAnswers()" id="checkBtn">
+            CHECK MY ANSWERS →
+        </button>
+    </div>
+
+    <div id="result">
+        <h2 id="score"></h2>
+        <p id="message"></p>
+        <br>
+        <button onclick="restartQuiz()">TRY AGAIN ↻</button>
+    </div>
+
+</div>
+
+<footer>
+    ENGLISH GRAMMAR PRACTICE · 2026
+</footer>
+
+<script>
+
+const questions = [
+
+{
+q: "She _____ to school every day.",
+a: ["go", "goes", "is going", "going"],
+correct: 1,
+explanation: "Present Simple: We add -s to verbs with he, she or it."
+},
+
+{
+q: "Look! The children _____ in the garden.",
+a: ["play", "plays", "are playing", "is playing"],
+correct: 2,
+explanation: "Present Continuous: Look! indicates an action happening now."
+},
+
+{
+q: "My father _____ coffee every morning.",
+a: ["drink", "drinks", "is drinking", "drinking"],
+correct: 1,
+explanation: "Present Simple: It is a daily routine."
+},
+
+{
+q: "I _____ my homework right now.",
+a: ["do", "does", "am doing", "doing"],
+correct: 2,
+explanation: "Present Continuous: The action is happening now."
+},
+
+{
+q: "They usually _____ football on Saturdays.",
+a: ["play", "plays", "are playing", "playing"],
+correct: 0,
+explanation: "Present Simple: Usually describes a routine."
+},
+
+{
+q: "Listen! Someone _____ at the door.",
+a: ["knock", "knocks", "is knocking", "are knocking"],
+correct: 2,
+explanation: "Present Continuous: Listen! indicates something happening now."
+},
+
+{
+q: "He _____ TV every evening.",
+a: ["watch", "watches", "is watching", "watching"],
+correct: 1,
+explanation: "Present Simple: Every evening describes a habit."
+},
+
+{
+q: "We _____ English at the moment.",
+a: ["study", "studies", "are studying", "is studying"],
+correct: 2,
+explanation: "Present Continuous: At the moment means now."
+},
+
+{
+q: "My sister _____ in London.",
+a: ["live", "lives", "is living", "living"],
+correct: 1,
+explanation: "Present Simple: It describes a permanent situation."
+},
+
+{
+q: "Why _____ you _____ now?",
+a: ["do / cry", "are / crying", "does / cry", "is / crying"],
+correct: 1,
+explanation: "Present Continuous: The question refers to now."
+},
+
+{
+q: "Water _____ at 100 degrees Celsius.",
+a: ["boil", "boils", "is boiling", "boiling"],
+correct: 1,
+explanation: "Present Simple: General scientific facts."
+},
+
+{
+q: "She _____ a book at the moment.",
+a: ["reads", "read", "is reading", "reading"],
+correct: 2,
+explanation: "Present Continuous: At the moment indicates now."
+},
+
+{
+q: "I never _____ breakfast at school.",
+a: ["eat", "eats", "am eating", "eating"],
+correct: 0,
+explanation: "Present Simple: Never describes a habit."
+},
+
+{
+q: "The dog _____ in the park right now.",
+a: ["runs", "run", "is running", "are running"],
+correct: 2,
+explanation: "Present Continuous: Right now indicates an action in progress."
+},
+
+{
+q: "_____ your brother play tennis?",
+a: ["Do", "Does", "Is", "Are"],
+correct: 1,
+explanation: "Present Simple: Does is used with he, she and it."
+},
+
+{
+q: "We _____ dinner now.",
+a: ["have", "has", "are having", "is having"],
+correct: 2,
+explanation: "Present Continuous: Now indicates an action happening at this moment."
+},
+
+{
+q: "My mother _____ to work by bus.",
+a: ["go", "goes", "is going", "going"],
+correct: 1,
+explanation: "Present Simple: It describes a regular routine."
+},
+
+{
+q: "Be quiet! The baby _____.",
+a: ["sleeps", "sleep", "is sleeping", "are sleeping"],
+correct: 2,
+explanation: "Present Continuous: The baby is sleeping now."
+},
+
+{
+q: "They _____ like vegetables.",
+a: ["doesn't", "don't", "aren't", "isn't"],
+correct: 1,
+explanation: "Present Simple negative: Use don't with they."
+},
+
+{
+q: "What _____ she _____ right now?",
+a: ["does / do", "is / doing", "do / do", "are / doing"],
+correct: 1,
+explanation: "Present Continuous: Is + subject + verb-ing."
+},
+
+{
+q: "He always _____ his room on Sundays.",
+a: ["clean", "cleans", "is cleaning", "cleaning"],
+correct: 1,
+explanation: "Present Simple: Always describes a habit."
+},
+
+{
+q: "I _____ to music at the moment.",
+a: ["listen", "listens", "am listening", "is listening"],
+correct: 2,
+explanation: "Present Continuous: At the moment indicates now."
+},
+
+{
+q: "_____ they usually walk to school?",
+a: ["Are", "Does", "Do", "Is"],
+correct: 2,
+explanation: "Present Simple: Use Do to form questions with they."
+},
+
+{
+q: "My friends _____ basketball now.",
+a: ["play", "plays", "are playing", "is playing"],
+correct: 2,
+explanation: "Present Continuous: Now indicates an action in progress."
+},
+
+{
+q: "She _____ her teeth twice a day.",
+a: ["brush", "brushes", "is brushing", "brushing"],
+correct: 1,
+explanation: "Present Simple: Twice a day describes a daily routine."
+}
+
+];
+
+let answers = {};
+
+function loadQuiz() {
+    const quiz = document.getElementById("quiz");
+    quiz.innerHTML = "";
+
+    questions.forEach((q, index) => {
+
+        let html = `
+        <div class="question" id="question${index}">
+            <div class="number">QUESTION ${index + 1} / 25</div>
+            <h3>${q.q}</h3>
+            <div class="options">
+        `;
+
+        q.a.forEach((answer, i) => {
+            html += `
+            <div class="option"
+                onclick="selectAnswer(${index}, ${i})"
+                id="option${index}_${i}">
+                ${String.fromCharCode(65 + i)}. ${answer}
+            </div>
+            `;
+        });
+
+        html += `</div>
+        <div class="explanation" id="explanation${index}"></div>
+        </div>`;
+
+        quiz.innerHTML += html;
+    });
+
+    updateProgress();
+}
+
+function selectAnswer(question, answer) {
+
+    if (document.getElementById("result").style.display === "block") return;
+
+    answers[question] = answer;
+
+    questions[question].a.forEach((_, i) => {
+        document.getElementById(`option${question}_${i}`)
+            .classList.remove("selected");
+    });
+
+    document.getElementById(`option${question}_${answer}`)
+        .classList.add("selected");
+
+    updateProgress();
+}
+
+function updateProgress() {
+    const progress = (Object.keys(answers).length / 25) * 100;
+    document.getElementById("progress").style.width = progress + "%";
+}
+
+function checkAnswers() {
+
+    if (Object.keys(answers).length < 25) {
+        alert("Please answer all 25 questions before checking!");
+        return;
+    }
+
+    let score = 0;
+
+    questions.forEach((q, index) => {
+
+        q.a.forEach((_, i) => {
+            const option = document.getElementById(`option${index}_${i}`);
+            option.classList.remove("selected");
+
+            if (i === q.correct) {
+                option.classList.add("correct");
+            }
+        });
+
+        const explanation = document.getElementById(`explanation${index}`);
+
+        if (answers[index] === q.correct) {
+            score++;
+            explanation.innerHTML = "✓ Correct! " + q.explanation;
+        } else {
+            document.getElementById(`option${index}_${answers[index]}`)
+                .classList.add("wrong");
+
+            explanation.innerHTML = "✗ Incorrect. " + q.explanation;
+        }
+    });
+
+    document.getElementById("score").innerText = score + " / 25";
+
+    let message = "";
+
+    if (score === 25) {
+        message = "Perfect! Excellent work!";
+    } else if (score >= 20) {
+        message = "Great job! You know your grammar very well.";
+    } else if (score >= 15) {
+        message = "Good work! Keep practising.";
+    } else if (score >= 10) {
+        message = "Not bad! Review the grammar rules and try again.";
+    } else {
+        message = "Keep learning! Practice makes progress.";
+    }
+
+    document.getElementById("message").innerText = message;
+    document.getElementById("result").style.display = "block";
+    document.getElementById("checkBtn").style.display = "none";
+
+    document.getElementById("result").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+function restartQuiz() {
+    answers = {};
+
+    document.getElementById("result").style.display = "none";
+    document.getElementById("checkBtn").style.display = "inline-block";
+
+    loadQuiz();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+loadQuiz();
+
+</script>
+
+</body>
+</html>
